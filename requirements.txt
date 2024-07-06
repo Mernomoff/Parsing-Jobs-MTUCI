@@ -1,0 +1,7 @@
+Flask
+mysql-connector-python
+requests
+beautifulsoup4
+
+
+

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск вакансий</title>
+    <style>
+
+         .hi-tech-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+            background-size: 400% 400%;
+            animation: AnimationName 15s ease infinite;
+        }
+
+        @keyframes AnimationName {
+            0%{background-position:0% 50%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 50%}
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            color: #33ff33;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ff33ff;
+            text-shadow: 0 0 10px #ff33ff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #000c;
+            border: 2px solid #33ff33;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-wrapper {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 15px 0 5px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #b3b3b3;
+        }
+
+        input[type="text"] {
+            background-color: #333333;
+            border-color: #4d4d4d;
+            color: #f0f0f0;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button[type="submit"] {
+            padding: 12px;
+            background-color: #ff33ff;
+            color: #000;
+            border: 2px solid #33ff33;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #ff66ff;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #333333;
+            transition: transform 0.2s;
+            border-color: #4d4d4d;
+        }
+
+        li:hover {
+            transform: scale(1.02);
+        }
+
+        a {
+            color: #4da6ff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:hover {
+            color: #ff66ff;
+            text-decoration: underline;
+        }
+
+        .help-text {
+            font-family: 'Pixel', monospace;
+            display: none;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: rgba(51, 51, 51, 0.8);
+            margin-bottom: 20px;
+            border-color: #4d4d4d;
+        }
+
+        .btn-help {
+            background-color: #ff33ff;
+            border: 2px solid #33ff33;
+            color: 000;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-help:hover {
+            background-color: #ff66ff;
+        }
+
+        #vacancy-count {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #555;
+        }
+
+        .author-link {
+            display: block;
+            text-align: right;
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="hi-tech-background"></div>
+    <div class="container">
+        <h1>Поиск вакансий {от людей - для людей}</h1>
+        <div class="btn-wrapper">
+            <button class="btn-help" onclick="toggleHelpText()">Помощь</button>
+            <form method="post" action="/load_database">
+                <button type="submit">Загрузить все вакансии в базу данных</button>
+            </form>
+        </div>
+
+        <div class="help-text">
+            <p>Уважаемый пользователь! Рад приветствовать вас на сайте, посвященном поиску вакансий. Для успешного начала поиска работы рекомендуем соблюдать несколько важных правил:</p>
+            <ol>
+                <li>Внимательно проверяйте орфографию при вводе ключевых слов в поисковую строку. Это поможет вам найти максимально релевантные вакансии. Примеры:
+                    <ul>
+                        <li>а. Компания - Названия в данном поле нужно писать через пробел, не используя запятую или другие символы: (VK Сбер и т.д.)</li>
+                        <li>б. Должность: (Backend, Frontend и т.д.)</li>
+                        <li>в. Город: (Москва, Екатеринбург, Санкт-Петербург и т.д.)</li>
+                        <li>г. Тип работы: (Полный рабочий день, Удаленная работа)</li>
+                        <li>д. Уровень опыта: (Стажёр (Intern), Младший (Junior), Средний (Middle), Старший (Senior), Ведущий (Lead))</li>
+                        <li>е. Навыки: (Java, Python, MySQL и т.д.)</li>
+                    </ul>
+                </li>
+                <li>Даже если вы оставите поисковую строку пустой, система обработает ваш запрос и предоставит вам список актуальных вакансий. Это позволит вам ознакомиться с широким спектром предложений на рынке труда.</li>
+            </ol>
+            <p>Всего доброго, счастливого поиска вакансий!</p>
+        </div>
+
+        <form method="post">
+            <label for="company">Компания:</label>
+            <input type="text" id="company" name="company" placeholder="VK, Сбер, Яндекс..."><br>
+
+            <label for="position">Должность:</label>
+            <input type="text" id="position" name="position" placeholder="Backend, Frontend..."><br>
+
+            <label for="city">Город:</label>
+            <input type="text" id="city" name="city" placeholder="Москва, Екатеринбург..."><br>
+
+            <label for="work_type">Тип работы:</label>
+            <input type="text" id="work_type" name="work_type" placeholder="Полный рабочий день, Удаленная работа..."><br>
+
+            <label for="experience_level">Уровень опыта:</label>
+            <input type="text" id="experience_level" name="experience_level" placeholder="Стажёр, Младший, Средний..."><br>
+
+            <label for="skills">Навыки:</label>
+            <input type="text" id="skills" name="skills" placeholder="Java, Python, MySQL..."><br>
+
+
+            <button type="submit">Искать</button>
+        </form>
+
+        <div class="author-link">
+            Автор: <a href="https://t.me/Mernom">@Mernom</a>
+        </div>
+
+        {% if vacancies %}
+        <h2>Результаты поиска:</h2>
+        <ul>
+            {% for vacancy in vacancies %}
+            <li>
+                <strong>{{ vacancy.title }}</strong><br>
+                {{ vacancy.name_company }}<br>
+                {{ vacancy.location }}<br>
+                <a href="{{ vacancy.link }}" target="_blank">Подробнее</a><br>
+                {{ vacancy.requirements }}<br>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if analytics %}
+            <h2>Аналитика:</h2>
+            <p>Общее количество вакансий: {{ analytics.total_vacancies }}</p>
+        {% endif %}
+
+        <script>
+            function toggleHelpText() {
+                var helpText = document.querySelector('.help-text');
+                helpText.style.display = (helpText.style.display === 'block') ? 'none' : 'block';
+            }
+        </script>
+    </div>
+</body>
+</html>
