@@ -10,6 +10,24 @@ url = "https://career.habr.com/vacancies"
 
 number_of_pages = 1
 
+def create_database():
+    conn = None
+    try:
+        conn = mysql.connector.connect(
+            user=database_config.DB_CONFIG['user'],
+            password=database_config.DB_CONFIG['password'],
+            host=database_config.DB_CONFIG['host'],
+            port=database_config.DB_CONFIG['port']
+        )
+        cursor = conn.cursor()
+        cursor.execute(f"CREATE DATABASE IF NOT EXISTS {database_config.DB_CONFIG['database']}")
+        print(f"Database '{database_config.DB_CONFIG['database']}' created or already exists.")
+    except mysql.connector.Error as err:
+        print(f"Error creating database: {err}")
+    finally:
+        if conn:
+            cursor.close()
+            conn.close()
 def create_table():
     conn = None
     try:
@@ -109,7 +127,6 @@ def get_vacancy_analytics():
         if conn:
             cursor.close()
             conn.close()
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -135,6 +152,7 @@ def index():
 
     return render_template('index.html', company=company, position=position, city=city, work_type=work_type, experience_level=experience_level, skills=skills)
 def search_in_database(company, position, city, work_type, experience_level, skills):
+    create_database()
     create_table()
     conn = None
     try:
@@ -179,6 +197,7 @@ def search_in_database(company, position, city, work_type, experience_level, ski
 
 @app.route('/load_database', methods=['POST'])
 def load_database():
+    create_database()
     create_table()
 
     erase_vacancies_in_mysql()
@@ -200,5 +219,6 @@ def load_database():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
+    create_database()
     create_table()
     app.run(debug=True)
