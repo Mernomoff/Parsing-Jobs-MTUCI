@@ -14,10 +14,10 @@ def create_database():
     conn = None
     try:
         conn = mysql.connector.connect(
-            user=database_config.DB_CONFIG['user'],
-            password=database_config.DB_CONFIG['password'],
-            host=database_config.DB_CONFIG['host'],
-            port=database_config.DB_CONFIG['port']
+            user=database_config.DB_CONFIG['root'],
+            password=database_config.DB_CONFIG['Someidiot888@@@'],
+            host=database_config.DB_CONFIG['db'],
+            port=database_config.DB_CONFIG['3306']
         )
         cursor = conn.cursor()
         cursor.execute(f"CREATE DATABASE IF NOT EXISTS {database_config.DB_CONFIG['database']}")
